@@ -12,7 +12,19 @@ public class Point {
 		double d = Math.sqrt(dx*dx + dy*dy);
 		return d;
 	}
+	// konstruktori
 	
+	public Point() {
+		
+	}
+	public Point(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	public Point(int x, int y, boolean selected) {
+		this(x,y);
+		this.selected = selected;
+	}
 	//metode pristupa
 	//GET i SET metode
 	public int getX() {
@@ -34,4 +46,31 @@ public class Point {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
+	
+	public boolean equals (Object obj) {
+		if (obj instanceof Point) {
+			Point pomocna = (Point) obj;
+			
+			if(this.x == pomocna.getX() && this.y == pomocna.getY()) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+			
+	}
+	public String toString() {
+		
+		return "(" + x + "," + y + ")";	
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 }

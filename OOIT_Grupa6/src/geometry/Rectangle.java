@@ -7,6 +7,21 @@ public class Rectangle {
 	private int height;
 	private boolean selected;
 	
+	// Konstruktori 
+	
+	public Rectangle () {
+		
+	}
+	public Rectangle (Point upperLeft, int width, int height) {
+		this.upperLeft = upperLeft;
+		this.height = height;
+		this.width = width;
+	}
+	public Rectangle (Point upperLeft, int width, int height, boolean selected) {
+		this (upperLeft, width, height);
+		this.selected = selected;
+	}
+	
 	// Povrsina pravougaonika
 	public int area() {
 		return width * height;
@@ -44,5 +59,20 @@ public class Rectangle {
 	}
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+	public boolean equals(Object obj) {
+		if (obj instanceof Rectangle) {
+			Rectangle pomocni = (Rectangle) obj;
+			if (this.upperLeft.equals(pomocni.getUpperLeft()) && this.width == pomocni.width && this.height == pomocni.height) {
+				return true;
+			} else {
+				return false;
+			}
+		}else {
+			return false;
+		}
+	}
+	public String toString() {
+		return "Upper left point: " + upperLeft + " ,width= " + width + " ,height= " + height;
 	}
 }
