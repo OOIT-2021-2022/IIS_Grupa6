@@ -17,11 +17,19 @@ public class Rectangle {
 		this.height = height;
 		this.width = width;
 	}
+
 	public Rectangle (Point upperLeft, int width, int height, boolean selected) {
 		this (upperLeft, width, height);
 		this.selected = selected;
 	}
-	
+	public boolean contains(int x, int y) {
+		return (upperLeft.getX() < x && upperLeft.getX() + width > x && upperLeft.getY() < y
+				&& upperLeft.getY() + height > y);
+	}
+	public boolean contains(Point p) {
+		return upperLeft.getX() < p.getX() && upperLeft.getX() + width > p.getX()
+				&& upperLeft.getY() < p.getY() && upperLeft.getY() + height > p.getY();
+	}
 	// Povrsina pravougaonika
 	public int area() {
 		return width * height;
