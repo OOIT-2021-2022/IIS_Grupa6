@@ -1,11 +1,12 @@
 package geometry;
 
-public class Rectangle {
+import java.awt.Graphics;
+
+public class Rectangle extends Shape{
 
 	private Point upperLeft;
 	private int width;
 	private int height;
-	private boolean selected;
 	
 	// Konstruktori 
 	
@@ -20,7 +21,7 @@ public class Rectangle {
 
 	public Rectangle (Point upperLeft, int width, int height, boolean selected) {
 		this (upperLeft, width, height);
-		this.selected = selected;
+		setSelected(selected);
 	}
 	public boolean contains(int x, int y) {
 		return (upperLeft.getX() < x && upperLeft.getX() + width > x && upperLeft.getY() < y
@@ -62,12 +63,7 @@ public class Rectangle {
 		this.height = height;
 	}
 	
-	public boolean isSelected() {
-		return selected;
-	}
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
+
 	public boolean equals(Object obj) {
 		if (obj instanceof Rectangle) {
 			Rectangle pomocni = (Rectangle) obj;
@@ -82,5 +78,10 @@ public class Rectangle {
 	}
 	public String toString() {
 		return "Upper left point: " + upperLeft + " ,width= " + width + " ,height= " + height;
+	}
+	@Override
+	public void draw(Graphics g) {
+		g.drawRect(upperLeft.getX(), upperLeft.getY(), width, height);
+		
 	}
 }

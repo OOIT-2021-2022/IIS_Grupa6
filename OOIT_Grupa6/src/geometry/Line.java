@@ -1,11 +1,12 @@
 package geometry;
 
-public class Line {
+import java.awt.Graphics;
+
+public class Line extends Shape{
 
 	private Point startPoint;
 	private Point endPoint;
-	private boolean selected;
-	
+		
 	// Konstruktori
 	
 	public Line () {
@@ -17,7 +18,7 @@ public class Line {
 	}
 	public Line (Point startPoint, Point endPoint, boolean selected) {
 		this (startPoint, endPoint );
-		this.selected = selected;
+		setSelected(selected);
 	}
 	
 	// Metoda za izracunavanje duzine linije
@@ -44,12 +45,6 @@ public class Line {
 		this.endPoint = endPoint;
 	}
 	
-	public boolean isSelected() {
-		return selected;
-	}
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
 	public boolean equals(Object obj) {
 		if (obj instanceof Line) {
 			
@@ -66,5 +61,10 @@ public class Line {
 	}
 	public String toString() {
 		return startPoint + "-->" + endPoint; 
+	}
+	@Override
+	public void draw(Graphics g) {
+		g.drawLine(startPoint.getX(), startPoint.getY(), endPoint.getX(), endPoint.getY());
+		
 	}
 }
