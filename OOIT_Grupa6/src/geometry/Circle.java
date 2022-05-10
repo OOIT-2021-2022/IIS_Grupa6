@@ -71,4 +71,22 @@ public class Circle extends Shape {
 		
 	}
 
+	@Override
+	public void moveTo(int x, int y) {
+		center.moveTo(x, y);
+	}
+
+	@Override
+	public void moveBy(int byX, int byY) {
+		center.moveBy(byX, byY);
+	}
+
+	@Override
+	public int compareTo(Object obj) {
+		if(obj instanceof Circle) {
+			return  (int) (this.area() - ((Circle) obj).area());
+		}
+		return 0;
+	}
+
 }

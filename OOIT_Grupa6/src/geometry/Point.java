@@ -83,4 +83,24 @@ public class Point extends Shape {
 		g.drawLine(x, y - 2, x, y - 2); //vertiklna linija
 	}
 
+	@Override
+	public void moveTo(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	@Override
+	public void moveBy(int byX, int byY) {
+		this.x = this.x + byX;
+		this.y += byY;
+	}
+
+	@Override
+	public int compareTo(Object obj) {
+		if (obj instanceof Point) {
+			return (int) (this.distance(0, 0) - ((Point) obj).distance(0, 0));
+		}
+		return 0;
+	}
+
 }
