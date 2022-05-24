@@ -167,6 +167,16 @@ public class Test {
 		for(int i = 0; i < circles.length; i++) {
 			System.out.println(circles[i]);
 		}
+		
+		//Vežbe 8
+		System.out.println("Circle c1 " + c1);
+		try {
+			c1.setRadius(-10);
+		} catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Radius je negativna vrednost!");
+		}
+		System.out.println("Circle c1 " + c1);
 	}
 
 }
