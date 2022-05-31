@@ -63,7 +63,7 @@ public class Drawing extends JPanel{
 		shapes.add(3,l1);
 		
 		System.out.println(shapes.isEmpty());
-		
+	
 		p1.setSelected(true);
 		p1.draw(g);
 		
