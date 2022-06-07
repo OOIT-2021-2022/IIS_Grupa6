@@ -26,6 +26,11 @@ import javax.swing.JList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrmTest extends JFrame {
 
@@ -35,6 +40,8 @@ public class FrmTest extends JFrame {
 	private JLabel lblCrvena;
 	private JLabel lblPlava;
 	private JLabel lblZuta;
+	private JTextField txtDodajBoju;
+	private JList lstBoje;
 
 	/**
 	 * Launch the application.
@@ -67,9 +74,9 @@ public class FrmTest extends JFrame {
 		JPanel pnlSouth = new JPanel();
 		contentPane.add(pnlSouth, BorderLayout.SOUTH);
 		GridBagLayout gbl_pnlSouth = new GridBagLayout();
-		gbl_pnlSouth.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_pnlSouth.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_pnlSouth.rowHeights = new int[]{0, 0};
-		gbl_pnlSouth.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlSouth.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_pnlSouth.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		pnlSouth.setLayout(gbl_pnlSouth);
 		
@@ -94,16 +101,74 @@ public class FrmTest extends JFrame {
 			}
 		});
 		GridBagConstraints gbc_btnIspis = new GridBagConstraints();
+		gbc_btnIspis.insets = new Insets(0, 0, 0, 5);
 		gbc_btnIspis.gridx = 5;
 		gbc_btnIspis.gridy = 0;
 		pnlSouth.add(btnIspis, gbc_btnIspis);
+		
+		JButton btnDodajBoju = new JButton("Dodaj boju");
+		btnDodajBoju.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DlgTest dlgTest = new DlgTest();
+				dlgTest.setVisible(true);
+				
+				if(dlgTest.isOk == true) {
+					dlm.addElement(dlgTest.txtRed.getText() + " " + dlgTest.txtGreen.getText() + " " + dlgTest.txtBlue.getText());
+					btnDodajBoju.setBackground(new Color(Integer.parseInt(dlgTest.txtRed.getText()),
+							Integer.parseInt(dlgTest.txtGreen.getText()), 
+							Integer.parseInt(dlgTest.txtBlue.getText())));
+					
+				}
+			}
+		});
+		GridBagConstraints gbc_btnDodajBoju = new GridBagConstraints();
+		gbc_btnDodajBoju.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDodajBoju.anchor = GridBagConstraints.NORTH;
+		gbc_btnDodajBoju.gridx = 6;
+		gbc_btnDodajBoju.gridy = 0;
+		pnlSouth.add(btnDodajBoju, gbc_btnDodajBoju);
+		
+		JButton btnIzmeniBoju = new JButton("Izmeni boju:");
+		btnIzmeniBoju.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DlgTest dlgTest = new DlgTest();
+				
+				try {
+					String[] rgb = dlm.getElementAt(lstBoje.getSelectedIndex()).toString().split(" ");
+					
+					dlgTest.txtRed.setText(rgb[0]);
+					dlgTest.txtGreen.setText(rgb[1]);
+					dlgTest.txtBlue.setText(rgb[2]);
+					
+					dlgTest.setVisible(true);
+					
+					if(dlgTest.isOk) {
+						dlm.removeElementAt(lstBoje.getSelectedIndex());
+						dlm.addElement(dlgTest.txtRed.getText() + " " + dlgTest.txtGreen.getText() + " " + dlgTest.txtBlue.getText());
+						
+						btnIzmeniBoju.setBackground(new Color(
+								Integer.parseInt(dlgTest.txtRed.getText()),
+								Integer.parseInt(dlgTest.txtGreen.getText()),
+								Integer.parseInt(dlgTest.txtBlue.getText())
+								));
+					}
+					
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Morate selektovati boju u R G B formatu!");
+				}
+			}
+		});
+		GridBagConstraints gbc_btnIzmeniBoju = new GridBagConstraints();
+		gbc_btnIzmeniBoju.gridx = 7;
+		gbc_btnIzmeniBoju.gridy = 0;
+		pnlSouth.add(btnIzmeniBoju, gbc_btnIzmeniBoju);
 		
 		JPanel pnlCenter = new JPanel();
 		contentPane.add(pnlCenter, BorderLayout.CENTER);
 		GridBagLayout gbl_pnlCenter = new GridBagLayout();
 		gbl_pnlCenter.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_pnlCenter.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_pnlCenter.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlCenter.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnlCenter.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pnlCenter.setLayout(gbl_pnlCenter);
 		
@@ -119,6 +184,32 @@ public class FrmTest extends JFrame {
 				
 			}
 		});
+		
+		JLabel lblDodajBoju = new JLabel("Dodaj boju:");
+		GridBagConstraints gbc_lblDodajBoju = new GridBagConstraints();
+		gbc_lblDodajBoju.anchor = GridBagConstraints.EAST;
+		gbc_lblDodajBoju.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDodajBoju.gridx = 0;
+		gbc_lblDodajBoju.gridy = 1;
+		pnlCenter.add(lblDodajBoju, gbc_lblDodajBoju);
+		
+		txtDodajBoju = new JTextField();
+		txtDodajBoju.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					dlm.addElement(txtDodajBoju.getText());
+					txtDodajBoju.setText("");
+				}
+			}
+		});
+		GridBagConstraints gbc_txtDodajBoju = new GridBagConstraints();
+		gbc_txtDodajBoju.insets = new Insets(0, 0, 5, 5);
+		gbc_txtDodajBoju.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtDodajBoju.gridx = 1;
+		gbc_txtDodajBoju.gridy = 1;
+		pnlCenter.add(txtDodajBoju, gbc_txtDodajBoju);
+		txtDodajBoju.setColumns(10);
 		GridBagConstraints gbc_tglbtnCrvena = new GridBagConstraints();
 		gbc_tglbtnCrvena.insets = new Insets(0, 0, 5, 5);
 		gbc_tglbtnCrvena.gridx = 0;
@@ -143,7 +234,7 @@ public class FrmTest extends JFrame {
 		gbc_scrollPane.gridy = 2;
 		pnlCenter.add(scrollPane, gbc_scrollPane);
 		
-		JList lstBoje = new JList();
+		lstBoje = new JList();
 		scrollPane.setViewportView(lstBoje);
 		lstBoje.setModel(dlm);
 		
@@ -198,6 +289,43 @@ public class FrmTest extends JFrame {
 		gbc_lblZuta.gridx = 1;
 		gbc_lblZuta.gridy = 4;
 		pnlCenter.add(lblZuta, gbc_lblZuta);
+		
+		JLabel lblDodatneBoje = new JLabel("Dodatne boje:");
+		GridBagConstraints gbc_lblDodatneBoje = new GridBagConstraints();
+		gbc_lblDodatneBoje.anchor = GridBagConstraints.EAST;
+		gbc_lblDodatneBoje.insets = new Insets(0, 0, 0, 5);
+		gbc_lblDodatneBoje.gridx = 0;
+		gbc_lblDodatneBoje.gridy = 5;
+		pnlCenter.add(lblDodatneBoje, gbc_lblDodatneBoje);
+		
+		JComboBox<String> cmbDodatneBoje = new JComboBox<String>();
+		cmbDodatneBoje.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dlm.addElement(cmbDodatneBoje.getSelectedItem().toString());
+				
+				switch(cmbDodatneBoje.getSelectedItem().toString()) {
+					case "Zelena": 
+						lblDodatneBoje.setForeground(Color.GREEN);
+						break;
+					case "Narandzasta": 
+						lblDodatneBoje.setForeground(Color.ORANGE);	
+						break;
+					case "Ljubicasta": 
+						lblDodatneBoje.setForeground(Color.MAGENTA);
+						break;
+					default: 
+						lblDodatneBoje.setForeground(Color.BLACK);
+						break;
+				}
+			}
+		});
+		cmbDodatneBoje.setModel(new DefaultComboBoxModel<String>(new String[] {"Zelena", "Narandzasta", "Ljubicasta"}));
+		GridBagConstraints gbc_cmbDodatneBoje = new GridBagConstraints();
+		gbc_cmbDodatneBoje.insets = new Insets(0, 0, 0, 5);
+		gbc_cmbDodatneBoje.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbDodatneBoje.gridx = 1;
+		gbc_cmbDodatneBoje.gridy = 5;
+		pnlCenter.add(cmbDodatneBoje, gbc_cmbDodatneBoje);
 		
 		JPanel pnlNorth = new JPanel();
 		pnlNorth.setBackground(Color.GREEN);
